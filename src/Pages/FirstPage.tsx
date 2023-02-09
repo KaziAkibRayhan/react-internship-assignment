@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const FirstPage = () => {
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,14 +21,20 @@ const FirstPage = () => {
 
     console.log(user);
     if (!name && !phone && !email) {
-      alert("Please fill up this form.");
+      setMessage('Please fill up all information!')
+      navigate("/");
     } else {
       localStorage.setItem("user", JSON.stringify(user));
       navigate("/second");
+      setMessage('')
     }
   };
   return (
-    <Box sx={{display: 'grid', gridColumn: 1, placeItems: 'center' , gap: 2}} onSubmit={handleSubmit} component={"form"}>
+    <Box
+      sx={{ display: "grid", gridColumn: 1, placeItems: "center", gap: 2 }}
+      onSubmit={handleSubmit}
+      component={"form"}
+    >
       <TextField
         // onBlur={(e) => setName(e.target.value)}
         type={"text"}
@@ -55,6 +62,7 @@ const FirstPage = () => {
         variant="outlined"
         // required
       />
+      
       <Button
         style={{ marginTop: "10px" }}
         type="submit"
@@ -63,6 +71,9 @@ const FirstPage = () => {
       >
         Save & Navigate 2nd Page
       </Button>
+      {
+        message && <p style={{color: 'orange', fontSize: '20px'}}>{message}</p>
+      }
     </Box>
   );
 };
